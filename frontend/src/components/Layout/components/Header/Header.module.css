@@ -1,0 +1,32 @@
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #000000;
+    gap: 25px;
+    padding: 15px;
+}
+.header-link {
+    text-decoration: none;
+    color: #000000;
+}
+
+/* .mode-light {
+    background-color: #ffffff;
+}
+
+.mode-dark {
+    background-color: #000000;
+}
+
+.mode-dark .header-link {
+    color: #ffffff;
+} */
+.header-link.active,
+.header-link.active {
+    color: #7060e9;
+}
+.header-link:hover {
+    color: #7060e9;
+}

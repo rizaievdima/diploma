@@ -1,0 +1,7 @@
+.hotels-list {
+    list-style: none;
+}
+
+.hotels-list-item {
+    padding: var(--xs);
+}
