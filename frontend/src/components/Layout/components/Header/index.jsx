@@ -14,6 +14,14 @@ const Header = () => {
                 Home
             </NavLink>
             <NavLink
+                to={"/hotels"}
+                className={({ isActive }) =>
+                    `${styles["header-link"]} ${isActive ? styles["active"] : ""}`
+                }
+            >
+                Hotels
+            </NavLink>
+            <NavLink
                 className={({ isActive }) =>
                     `${styles["header-link"]} ${isActive ? styles["active"] : ""}`
                 }

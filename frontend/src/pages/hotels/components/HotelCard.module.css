@@ -1,0 +1,28 @@
+.card {
+    width: 320px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.coverImage {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+.button {
+    margin-top: 12px;
+}

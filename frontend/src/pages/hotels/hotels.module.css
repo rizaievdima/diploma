@@ -1,7 +1,26 @@
-.hotels-list {
-    list-style: none;
+.wrapper {
+    padding: 24px;
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
 }
 
-.hotels-list-item {
-    padding: var(--xs);
+.controls {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: center;
+}
+
+.controls :global(.ant-select),
+.controls :global(.ant-input) {
+    min-width: 260px;
+    height: 40px;
+    font-size: 16px;
+}
+
+.hotelsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
