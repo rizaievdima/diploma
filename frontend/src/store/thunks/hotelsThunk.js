@@ -4,28 +4,33 @@ const API_URL = "http://localhost:4000";
 
 export const fetchHotels = createAsyncThunk(
     "hotels/fetchHotels",
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await fetch(`${API_URL}/hotels`);
 
-            if (!response.ok) {
+    async ({ page = 1, pageSize = 9 }, { rejectWithValue }) => {
+        try {
+            const res = await fetch(`${API_URL}/hotels`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ page, pageSize }),
+            });
+
+            if (!res.ok) {
                 throw new Error("Failed to fetch hotels!");
             }
 
-            return await response.json();
-        } catch (error) {
-            return rejectWithValue(error);
+            return await res.json();
+        } catch (err) {
+            return rejectWithValue(err.message);
         }
     }
 );
 export const searchHotels = createAsyncThunk(
     "hotels/searchHotels",
-    async ({ destinationId, query }, { rejectWithValue }) => {
+    async ({ destinationId = "", query = "", page = 1, pageSize = 9 }, { rejectWithValue }) => {
         try {
             const res = await fetch(`${API_URL}/search`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ destinationId, query }),
+                body: JSON.stringify({ destinationId, query, page, pageSize }),
             });
 
             if (!res.ok) {

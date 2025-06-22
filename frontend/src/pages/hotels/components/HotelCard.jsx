@@ -18,7 +18,7 @@ const Class = ({ id, name, address, city, imageUrl }) => {
     return (
         <Card
             className={styles.card}
-            cover={<img className={styles.coverImage} alt={name} src={imageUrl2} />}
+            cover={<img className={styles.coverImage} alt={name} src={imageUrl} />}
         >
             <div className={styles.content}>
                 <Meta

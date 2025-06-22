@@ -3,6 +3,7 @@ import { fetchHotels, searchHotels } from "../thunks/hotelsThunk";
 
 const initialState = {
     hotels: [],
+    total: 0,
     isLoading: false,
     error: "",
 };
@@ -20,7 +21,8 @@ const hotelsSlice = createSlice({
             .addCase(fetchHotels.fulfilled, (state, action) => {
                 state.isLoading = false;
 
-                state.hotels = action.payload;
+                state.hotels = action.payload.hotels;
+                state.total = action.payload.total;
             })
             .addCase(fetchHotels.rejected, (state, action) => {
                 state.isLoading = false;
@@ -33,7 +35,8 @@ const hotelsSlice = createSlice({
             .addCase(searchHotels.fulfilled, (state, action) => {
                 state.isLoading = false;
 
-                state.hotels = action.payload;
+                state.hotels = action.payload.hotels;
+                state.total = action.payload.total;
             })
             .addCase(searchHotels.rejected, (state, action) => {
                 state.isLoading = false;

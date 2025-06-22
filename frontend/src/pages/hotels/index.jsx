@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Select, Input, Row, Col } from "antd";
+import { Select, Input, Row, Col, Pagination } from "antd";
 
-import { searchHotels } from "../../store/thunks/hotelsThunk.js";
+import { fetchHotels, searchHotels } from "../../store/thunks/hotelsThunk.js";
 import { setSelectedCity, setSearchQuery } from "../../store/slices/filtersSlice.js";
 import useDebounce from "../../hooks/useDebounce.js";
 
@@ -13,9 +13,13 @@ import styles from "./hotels.module.css";
 const { Option } = Select;
 
 const Hotels = () => {
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(9);
+
     const { destinations, error, loading } = useSelector((state) => state.destinations);
     const {
         hotels,
+        total,
         error: hotelsError,
         loading: hotelsLoading,
     } = useSelector((state) => state.hotels);
@@ -23,12 +27,16 @@ const Hotels = () => {
 
     const dispatch = useDispatch();
     const debouncedQuery = useDebounce(searchQuery);
+    // useEffect(() => {
+    //     dispatch(fetchHotels());
+    // }, []);
 
     useEffect(() => {
-        if (selectedCity) {
-            dispatch(searchHotels({ destinationId: selectedCity, query: debouncedQuery }));
-        }
-    }, [selectedCity, debouncedQuery]);
+        dispatch(
+            searchHotels({ destinationId: selectedCity, query: debouncedQuery, page, pageSize })
+        );
+        console.log("searchHotels");
+    }, [selectedCity, debouncedQuery, page]);
 
     const handleCityChange = (value) => {
         dispatch(setSelectedCity(value));
@@ -64,9 +72,8 @@ const Hotels = () => {
 
             <Row gutter={[36, 36]}>
                 {hotels?.map((hotel) => (
-                    <Col span={8}>
+                    <Col key={hotel.id} span={8}>
                         <HotelCard
-                            key={hotel.id}
                             id={hotel.id}
                             name={hotel.name}
                             address={hotel.address}
@@ -76,6 +83,15 @@ const Hotels = () => {
                     </Col>
                 ))}
             </Row>
+            <Pagination
+                align="center"
+                showSizeChanger={false}
+                style={{ marginTop: "35px" }}
+                current={page}
+                pageSize={pageSize}
+                total={total}
+                onChange={(page) => setPage(page)}
+            />
         </div>
     );
 };
