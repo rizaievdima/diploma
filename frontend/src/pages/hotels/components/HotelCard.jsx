@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { Card, Button } from "antd";
 import styles from "./HotelCard.module.css";
 
+const { Meta } = Card;
+
 const Class = ({ id, name, address, city, imageUrl }) => {
     const navigate = useNavigate();
 
@@ -11,20 +13,28 @@ const Class = ({ id, name, address, city, imageUrl }) => {
         navigate(`/hotels/${id}`);
     };
 
+    // const imageUrl2 = require(`./assets/react.svg`);
+
     return (
         <Card
             className={styles.card}
-            title={name}
-            cover={<img className={styles.coverImage} alt={name} src={imageUrl} />}
+            cover={<img className={styles.coverImage} alt={name} src={imageUrl2} />}
         >
             <div className={styles.content}>
-                <p>
-                    <strong>Address:</strong> {address}
-                </p>
+                <Meta
+                    title={name}
+                    description={
+                        <>
+                            <p>
+                                <strong>Address:</strong> {address}
+                            </p>
+                            <p>
+                                <strong>City:</strong> {city}
+                            </p>
+                        </>
+                    }
+                />
 
-                <p>
-                    <strong>City:</strong> {city}
-                </p>
                 <Button className={styles.button} type="primary" onClick={handleNavigate}>
                     More
                 </Button>

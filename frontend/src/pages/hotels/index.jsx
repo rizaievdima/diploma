@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Select, Input } from "antd";
+import { Select, Input, Row, Col } from "antd";
 
 import { searchHotels } from "../../store/thunks/hotelsThunk.js";
 import { setSelectedCity, setSearchQuery } from "../../store/slices/filtersSlice.js";
@@ -62,18 +62,20 @@ const Hotels = () => {
 
             {loading && hotelsLoading && <div>Loading....</div>}
 
-            <div className={styles.hotelsList}>
+            <Row gutter={[36, 36]}>
                 {hotels?.map((hotel) => (
-                    <HotelCard
-                        key={hotel.id}
-                        id={hotel.id}
-                        name={hotel.name}
-                        address={hotel.address}
-                        city={hotel.city}
-                        imageUrl={hotel.imageUrl}
-                    />
+                    <Col span={8}>
+                        <HotelCard
+                            key={hotel.id}
+                            id={hotel.id}
+                            name={hotel.name}
+                            address={hotel.address}
+                            city={hotel.city}
+                            imageUrl={hotel.imageUrl}
+                        />
+                    </Col>
                 ))}
-            </div>
+            </Row>
         </div>
     );
 };

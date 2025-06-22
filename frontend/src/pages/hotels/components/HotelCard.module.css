@@ -1,5 +1,5 @@
 .card {
-    width: 320px;
+    width: 100%;
     border-radius: 12px;
     overflow: hidden;
     transition: box-shadow 0.2s ease-in-out;
@@ -19,8 +19,6 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    font-size: 14px;
-    margin-top: 12px;
 }
 
 .button {

@@ -1,17 +1,17 @@
 .header {
-    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid #000000;
-    gap: 25px;
-    padding: 15px;
+    justify-content: space-between;
+    padding: 0px 40px;
 }
 .header-link {
     text-decoration: none;
     color: #000000;
 }
-
+.header-menu {
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-end;
+}
 /* .mode-light {
     background-color: #ffffff;
 }
@@ -29,4 +29,9 @@
 }
 .header-link:hover {
     color: #7060e9;
+}
+@media (max-width: 768px) {
+    .header {
+        padding: 0px 15px;
+    }
 }
