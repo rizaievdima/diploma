@@ -1,9 +1,31 @@
 import { store } from "../store";
 import { getDestinations } from "../store/thunks/destinationsThunk";
-import { fetchHotels } from "../store/thunks/hotelsThunk";
+import { fetchFeaturedHotels } from "../store/thunks/hotelsThunk";
+
+const API_URL = "http://localhost:4000";
 
 export async function hotelsLoader() {
     await store.dispatch(getDestinations());
-    // await store.dispatch(fetchHotels());
+
     return null;
+}
+
+export async function featuredHotelsLoader() {
+    await store.dispatch(fetchFeaturedHotels());
+    return null;
+}
+
+export async function hotelLoader({ params }) {
+    try {
+        const res = await fetch(`${API_URL}/hotels/${params.id}`);
+
+        if (!res.ok) {
+            throw new Error("Cannot get course!");
+        }
+        const data = await res.json();
+
+        return data;
+    } catch (e) {
+        return e.message;
+    }
 }

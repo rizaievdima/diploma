@@ -6,6 +6,7 @@ const app = express();
 const hotelsRouter = require("./routes/hotels");
 const destinationsRouter = require("./routes/destinations.js");
 const searchRoutes = require("./routes/search.js");
+const featuredHotelsRouter = require("./routes/featuredHotels.js");
 
 app.use(cors());
 app.use(express.json());
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/destinations", destinationsRouter);
 app.use("/hotels", hotelsRouter);
+app.use("/featured", featuredHotelsRouter);
 
 app.use("/search", searchRoutes);
 

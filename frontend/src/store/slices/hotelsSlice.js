@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchHotels, searchHotels } from "../thunks/hotelsThunk";
+import { searchHotels, fetchFeaturedHotels } from "../thunks/hotelsThunk";
 
 const initialState = {
     hotels: [],
+    featuredHotels: [],
     total: 0,
     isLoading: false,
     error: "",
@@ -14,20 +15,6 @@ const hotelsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchHotels.pending, (state) => {
-                state.isLoading = true;
-                state.error = "";
-            })
-            .addCase(fetchHotels.fulfilled, (state, action) => {
-                state.isLoading = false;
-
-                state.hotels = action.payload.hotels;
-                state.total = action.payload.total;
-            })
-            .addCase(fetchHotels.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload;
-            })
             .addCase(searchHotels.pending, (state) => {
                 state.isLoading = true;
                 state.error = "";
@@ -39,6 +26,19 @@ const hotelsSlice = createSlice({
                 state.total = action.payload.total;
             })
             .addCase(searchHotels.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchFeaturedHotels.pending, (state) => {
+                state.isLoading = true;
+                state.error = "";
+            })
+            .addCase(fetchFeaturedHotels.fulfilled, (state, action) => {
+                state.isLoading = false;
+
+                state.featuredHotels = action.payload;
+            })
+            .addCase(fetchFeaturedHotels.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             });

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Select, Input, Row, Col, Pagination } from "antd";
+import { Select, Input, Row, Col, Pagination, Spin, Alert } from "antd";
 
-import { fetchHotels, searchHotels } from "../../store/thunks/hotelsThunk.js";
+import { searchHotels } from "../../store/thunks/hotelsThunk.js";
 import { setSelectedCity, setSearchQuery } from "../../store/slices/filtersSlice.js";
+import { setCurrentPage } from "../../store/slices/globalSlice.js";
 import useDebounce from "../../hooks/useDebounce.js";
 
 import HotelCard from "./components/HotelCard.jsx";
@@ -21,22 +22,32 @@ const Hotels = () => {
         hotels,
         total,
         error: hotelsError,
-        loading: hotelsLoading,
+        isLoading: hotelsLoading,
     } = useSelector((state) => state.hotels);
     const { selectedCity, searchQuery } = useSelector((state) => state.filters);
 
+    const currentPage = useRef(1);
+
     const dispatch = useDispatch();
     const debouncedQuery = useDebounce(searchQuery);
-    // useEffect(() => {
-    //     dispatch(fetchHotels());
-    // }, []);
 
     useEffect(() => {
+        dispatch(setCurrentPage("hotels"));
+    }, []);
+
+    useEffect(() => {
+        // currentPage.current = 1;
         dispatch(
-            searchHotels({ destinationId: selectedCity, query: debouncedQuery, page, pageSize })
+            searchHotels({
+                destinationId: selectedCity,
+                query: debouncedQuery,
+                page: 1,
+                pageSize,
+            })
         );
-        console.log("searchHotels");
-    }, [selectedCity, debouncedQuery, page]);
+        setPage(1);
+        // console.log("searchHotels");
+    }, [selectedCity, debouncedQuery]);
 
     const handleCityChange = (value) => {
         dispatch(setSelectedCity(value));
@@ -44,6 +55,20 @@ const Hotels = () => {
 
     const handleSearchChange = (e) => {
         dispatch(setSearchQuery(e.target.value));
+    };
+    console.log(hotelsLoading);
+    const handlePageChange = (page) => {
+        // currentPage.current = page;
+
+        dispatch(
+            searchHotels({
+                destinationId: selectedCity,
+                query: debouncedQuery,
+                page: page,
+                pageSize,
+            })
+        );
+        setPage(page);
     };
 
     return (
@@ -54,6 +79,7 @@ const Hotels = () => {
                     value={selectedCity}
                     onChange={(value) => handleCityChange(value)}
                 >
+                    <Option value="">All cities</Option>
                     {destinations?.map((city) => (
                         <Option key={city.id} value={city.id}>
                             {city.label}
@@ -68,7 +94,11 @@ const Hotels = () => {
                 />
             </div>
 
-            {loading && hotelsLoading && <div>Loading....</div>}
+            {hotelsLoading && <Spin className={styles.loading} />}
+
+            {!hotelsLoading && hotels?.length === 0 && (
+                <Alert message="No hotels found" type="info" />
+            )}
 
             <Row gutter={[36, 36]}>
                 {hotels?.map((hotel) => (
@@ -79,19 +109,22 @@ const Hotels = () => {
                             address={hotel.address}
                             city={hotel.city}
                             imageUrl={hotel.imageUrl}
+                            hotelRating={hotel.hotel_rating}
                         />
                     </Col>
                 ))}
             </Row>
-            <Pagination
-                align="center"
-                showSizeChanger={false}
-                style={{ marginTop: "35px" }}
-                current={page}
-                pageSize={pageSize}
-                total={total}
-                onChange={(page) => setPage(page)}
-            />
+            {!hotelsLoading && hotels?.length > 0 ? (
+                <Pagination
+                    align="center"
+                    showSizeChanger={false}
+                    style={{ marginTop: "35px" }}
+                    current={page}
+                    pageSize={pageSize}
+                    total={total}
+                    onChange={(page) => handlePageChange(page)}
+                />
+            ) : null}
         </div>
     );
 };

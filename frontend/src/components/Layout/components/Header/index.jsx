@@ -1,13 +1,18 @@
 import { NavLink, useLocation } from "react-router";
+import { useSelector } from "react-redux";
 import { Layout, Menu, Typography } from "antd";
 import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHotel } from "@fortawesome/free-solid-svg-icons";
 
-const { Header: AntHeader } = Layout;
 import styles from "./Header.module.css";
 
+const { Header: AntHeader } = Layout;
+const { Title } = Typography;
+
 const Header = () => {
+    const { currentPage } = useSelector((state) => state.global);
+    console.log(currentPage);
     const items = [
         {
             key: "home",
@@ -26,24 +31,20 @@ const Header = () => {
         },
     ];
 
-    const location = useLocation();
-
-    const getSelectedKey = (pathname) => {
-        if (pathname === "/") return "home";
-        if (pathname.startsWith("/hotels")) return "hotels";
-        if (pathname.startsWith("/about-us")) return "about";
-        return "";
-    };
-
     return (
         <AntHeader className={styles.header}>
-            <div className="demo-logo" style={{ color: "white", padding: "0 24px" }}>
-                <h2>Booking</h2>
+            <div className={styles["header-logo"]}>
+                <NavLink to="/" className={styles["header-link"]}>
+                    <Title level={2} style={{ color: "white", margin: "0" }}>
+                        Booking
+                    </Title>
+                </NavLink>
             </div>
             <Menu
                 theme="dark"
                 mode="horizontal"
-                defaultSelectedKeys={[getSelectedKey(location.pathname)]}
+                defaultSelectedKeys={[currentPage]}
+                selectedKeys={[currentPage]}
                 items={items}
                 className={styles["header-menu"]}
             />

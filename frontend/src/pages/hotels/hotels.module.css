@@ -1,6 +1,8 @@
 .wrapper {
-    padding: 50px 24px 75px;
+    padding: 50px 25px 75px;
     width: 100%;
+    max-width: 1200px;
+    margin: 0px auto;
     background-color: #ffffff;
 }
 
@@ -22,4 +24,10 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+}
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
 }

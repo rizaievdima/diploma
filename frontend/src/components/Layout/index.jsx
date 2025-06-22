@@ -10,10 +10,6 @@ import styles from "./Layout.module.css";
 const { Content } = AntLayout;
 
 const Layout = () => {
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
-
     return (
         <div className={styles.container}>
             <Header />

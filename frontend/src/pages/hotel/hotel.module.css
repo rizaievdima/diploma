@@ -1,0 +1,22 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 25px 75px;
+}
+.hotel-image {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    border-bottom: 1px solid #f0f0f0;
+}
+.hotel-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.hotel-info .title {
+    margin-bottom: 5px;
+}
+.hotel-info .rate {
+    margin-bottom: 25px;
+}

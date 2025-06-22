@@ -12,17 +12,14 @@
     min-width: 0;
     justify-content: flex-end;
 }
-/* .mode-light {
-    background-color: #ffffff;
+.header-logo {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
 }
-
-.mode-dark {
-    background-color: #000000;
-}
-
-.mode-dark .header-link {
+.header-link {
     color: #ffffff;
-} */
+}
 .header-link.active,
 .header-link.active {
     color: #7060e9;

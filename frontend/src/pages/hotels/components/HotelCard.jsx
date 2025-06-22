@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router";
 import PropTypes from "prop-types";
 
-import { Card, Button } from "antd";
+import { Card, Button, Rate } from "antd";
 import styles from "./HotelCard.module.css";
 
 const { Meta } = Card;
 
-const Class = ({ id, name, address, city, imageUrl }) => {
+const HotelCard = ({ id, name, address, city, imageUrl, hotelRating }) => {
     const navigate = useNavigate();
 
     const handleNavigate = () => {
@@ -22,9 +22,17 @@ const Class = ({ id, name, address, city, imageUrl }) => {
         >
             <div className={styles.content}>
                 <Meta
+                    className={styles.meta}
                     title={name}
                     description={
                         <>
+                            <Rate
+                                className={styles.rate}
+                                count={5}
+                                allowHalf
+                                disabled
+                                defaultValue={hotelRating}
+                            />
                             <p>
                                 <strong>Address:</strong> {address}
                             </p>
@@ -43,12 +51,13 @@ const Class = ({ id, name, address, city, imageUrl }) => {
     );
 };
 
-Class.propTypes = {
+HotelCard.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
     address: PropTypes.string,
     city: PropTypes.string,
     imageUrl: PropTypes.string,
+    hotelRating: PropTypes.number,
 };
 
-export default Class;
+export default HotelCard;

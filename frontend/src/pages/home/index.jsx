@@ -1,7 +1,121 @@
-import React from "react";
+import { useEffect } from "react";
+import { Carousel, Typography, Button, Row, Col } from "antd";
+import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+
+import HotelCard from "../hotels/components/HotelCard";
+
+import { getImageUrl } from "../../helpers/additionalFanctions";
+import { setCurrentPage } from "../../store/slices/globalSlice";
+
+import styles from "./home.module.css";
+
+const { Title } = Typography;
 
 const Home = () => {
-    return <div>Home</div>;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { featuredHotels, isLoading, error } = useSelector((state) => state.hotels);
+
+    console.log(featuredHotels);
+    useEffect(() => {
+        console.log("Home 1");
+        dispatch(setCurrentPage("home"));
+    }, []);
+
+    return (
+        <div className={styles.wrapper}>
+            <div className={styles.carouselWrapper}>
+                <Carousel
+                    effect="fade"
+                    autoplay
+                    autoplaySpeed={3000}
+                    speed={500}
+                    slidesToShow={1}
+                    slidesToScroll={1}
+                    arrows
+                    dots
+                    draggable
+                >
+                    <div>
+                        <div
+                            style={{
+                                backgroundImage: `url(${getImageUrl("chris-carzoli.jpg")})`,
+                            }}
+                            className={styles.carouselImage}
+                        >
+                            <div className={styles.carouselContent}>
+                                <Title level={2}>Book your next trip</Title>
+                                <Button
+                                    onClick={() => navigate("/hotels")}
+                                    type="primary"
+                                    size="large"
+                                >
+                                    Book now
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div
+                            style={{
+                                backgroundImage: `url(${getImageUrl("sasha-kaunas.jpg")})`,
+                            }}
+                            className={styles.carouselImage}
+                        >
+                            <div className={styles.carouselContent}>
+                                <Title level={2}>Find the perfect place to stay</Title>
+                                <Button
+                                    onClick={() => navigate("/hotels")}
+                                    type="primary"
+                                    size="large"
+                                >
+                                    Book now
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div
+                            style={{
+                                backgroundImage: `url(${getImageUrl("rhema-kallianpur.jpg")})`,
+                            }}
+                            className={styles.carouselImage}
+                        >
+                            <div className={styles.carouselContent}>
+                                <Title level={2}>Find the best deals</Title>
+                                <Button
+                                    onClick={() => navigate("/hotels")}
+                                    type="primary"
+                                    size="large"
+                                >
+                                    Book now
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </Carousel>
+            </div>
+            <div className={styles.container}>
+                <Title level={2}>Featured Hotels</Title>
+                <Row gutter={[16, 16]}>
+                    {featuredHotels.map((hotel) => (
+                        <Col key={hotel.id} span={8}>
+                            <HotelCard
+                                id={hotel.id}
+                                name={hotel.name}
+                                address={hotel.address}
+                                city={hotel.city}
+                                imageUrl={hotel.imageUrl}
+                                hotelRating={hotel.hotel_rating}
+                            />
+                        </Col>
+                    ))}
+                </Row>
+            </div>
+        </div>
+    );
 };
 
 export default Home;
