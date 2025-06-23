@@ -29,7 +29,6 @@ export const fetchFeaturedHotels = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const res = await fetch(`${API_URL}/featured`);
-            console.log(res);
 
             if (!res.ok) {
                 throw new Error("Failed to fetch featured hotels!");

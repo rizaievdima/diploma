@@ -27,7 +27,7 @@ const Header = () => {
         {
             key: "about",
             icon: <UserOutlined />,
-            label: <NavLink to="/about-us">About Me</NavLink>,
+            label: <NavLink to="/about-us">About Us</NavLink>,
         },
     ];
 

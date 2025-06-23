@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLoaderData, useNavigate } from "react-router";
 import { Row, Col, Button, Typography, Flex, Rate } from "antd";
 
 import { setCurrentPage } from "../../store/slices/globalSlice";
+import { getImageUrl } from "../../helpers/additionalFanctions";
 
 import styles from "./hotel.module.css";
 
@@ -23,10 +24,10 @@ const Hotel = () => {
     return (
         <div className={styles.container}>
             <Row className={styles["hotel-info"]} gutter={[35, 35]}>
-                <Col span={10}>
-                    <img className={styles["hotel-image"]} alt={name} src={imageUrl} />
+                <Col lg={10} md={12} xs={24}>
+                    <img className={styles["hotel-image"]} alt={name} src={getImageUrl(imageUrl)} />
                 </Col>
-                <Col span={14}>
+                <Col lg={14} md={12} xs={24}>
                     <Title className={styles.title} level={1}>
                         {name}
                     </Title>

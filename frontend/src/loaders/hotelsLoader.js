@@ -1,17 +1,11 @@
 import { store } from "../store";
 import { getDestinations } from "../store/thunks/destinationsThunk";
-import { fetchFeaturedHotels } from "../store/thunks/hotelsThunk";
 
 const API_URL = "http://localhost:4000";
 
 export async function hotelsLoader() {
     await store.dispatch(getDestinations());
 
-    return null;
-}
-
-export async function featuredHotelsLoader() {
-    await store.dispatch(fetchFeaturedHotels());
     return null;
 }
 

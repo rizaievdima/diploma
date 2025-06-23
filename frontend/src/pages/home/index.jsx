@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import HotelCard from "../hotels/components/HotelCard";
 
+import { fetchFeaturedHotels } from "../../store/thunks/hotelsThunk";
 import { getImageUrl } from "../../helpers/additionalFanctions";
 import { setCurrentPage } from "../../store/slices/globalSlice";
 
@@ -18,10 +19,9 @@ const Home = () => {
 
     const { featuredHotels, isLoading, error } = useSelector((state) => state.hotels);
 
-    console.log(featuredHotels);
     useEffect(() => {
-        console.log("Home 1");
         dispatch(setCurrentPage("home"));
+        dispatch(fetchFeaturedHotels());
     }, []);
 
     return (
@@ -100,8 +100,8 @@ const Home = () => {
             <div className={styles.container}>
                 <Title level={2}>Featured Hotels</Title>
                 <Row gutter={[16, 16]}>
-                    {featuredHotels.map((hotel) => (
-                        <Col key={hotel.id} span={8}>
+                    {featuredHotels?.map((hotel) => (
+                        <Col key={hotel.id} lg={8} md={12} xs={24}>
                             <HotelCard
                                 id={hotel.id}
                                 name={hotel.name}

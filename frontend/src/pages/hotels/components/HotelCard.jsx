@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router";
 import PropTypes from "prop-types";
-
 import { Card, Button, Rate } from "antd";
+
+import { getImageUrl } from "../../../helpers/additionalFanctions";
+
 import styles from "./HotelCard.module.css";
 
 const { Meta } = Card;
@@ -13,12 +15,10 @@ const HotelCard = ({ id, name, address, city, imageUrl, hotelRating }) => {
         navigate(`/hotels/${id}`);
     };
 
-    // const imageUrl2 = require(`./assets/react.svg`);
-
     return (
         <Card
             className={styles.card}
-            cover={<img className={styles.coverImage} alt={name} src={imageUrl} />}
+            cover={<img className={styles.coverImage} alt={name} src={getImageUrl(imageUrl)} />}
         >
             <div className={styles.content}>
                 <Meta
@@ -44,7 +44,7 @@ const HotelCard = ({ id, name, address, city, imageUrl, hotelRating }) => {
                 />
 
                 <Button className={styles.button} type="primary" onClick={handleNavigate}>
-                    More
+                    Read more
                 </Button>
             </div>
         </Card>

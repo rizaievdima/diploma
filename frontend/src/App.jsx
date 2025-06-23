@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router";
+import { ConfigProvider } from "antd";
 
-import { featuredHotelsLoader, hotelLoader, hotelsLoader } from "./loaders/hotelsLoader";
+import { hotelLoader, hotelsLoader } from "./loaders/hotelsLoader";
 
 import Home from "./pages/home";
 import Hotels from "./pages/hotels";
@@ -8,6 +9,12 @@ import Hotel from "./pages/hotel";
 import AboutUs from "./pages/about-us";
 
 import Layout from "./components/Layout";
+
+const theme = {
+    token: {
+        fontSize: 16,
+    },
+};
 
 const router = createBrowserRouter([
     {
@@ -17,7 +24,6 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />,
-                loader: featuredHotelsLoader,
             },
             {
                 path: "hotels",
@@ -42,7 +48,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-    return <RouterProvider router={router} />;
+    return (
+        <ConfigProvider theme={theme}>
+            <RouterProvider router={router} />
+        </ConfigProvider>
+    );
 }
 
 export default App;

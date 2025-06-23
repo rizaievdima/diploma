@@ -28,6 +28,10 @@
 .meta :global(.ant-card-meta-title) {
     margin-bottom: 5px !important;
 }
+
+.meta :global(.ant-card-meta-description) {
+    font-size: 14px;
+}
 .button {
     margin-top: 12px;
 }

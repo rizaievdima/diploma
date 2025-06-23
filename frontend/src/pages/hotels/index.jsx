@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Select, Input, Row, Col, Pagination, Spin, Alert } from "antd";
 
@@ -17,7 +17,7 @@ const Hotels = () => {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(9);
 
-    const { destinations, error, loading } = useSelector((state) => state.destinations);
+    const { destinations } = useSelector((state) => state.destinations);
     const {
         hotels,
         total,
@@ -26,17 +26,14 @@ const Hotels = () => {
     } = useSelector((state) => state.hotels);
     const { selectedCity, searchQuery } = useSelector((state) => state.filters);
 
-    const currentPage = useRef(1);
-
     const dispatch = useDispatch();
     const debouncedQuery = useDebounce(searchQuery);
 
     useEffect(() => {
         dispatch(setCurrentPage("hotels"));
     }, []);
-
+    console.log("test");
     useEffect(() => {
-        // currentPage.current = 1;
         dispatch(
             searchHotels({
                 destinationId: selectedCity,
@@ -46,7 +43,6 @@ const Hotels = () => {
             })
         );
         setPage(1);
-        // console.log("searchHotels");
     }, [selectedCity, debouncedQuery]);
 
     const handleCityChange = (value) => {
@@ -56,10 +52,8 @@ const Hotels = () => {
     const handleSearchChange = (e) => {
         dispatch(setSearchQuery(e.target.value));
     };
-    console.log(hotelsLoading);
-    const handlePageChange = (page) => {
-        // currentPage.current = page;
 
+    const handlePageChange = (page) => {
         dispatch(
             searchHotels({
                 destinationId: selectedCity,
@@ -73,26 +67,31 @@ const Hotels = () => {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.controls}>
-                <Select
-                    placeholder="Choose the city"
-                    value={selectedCity}
-                    onChange={(value) => handleCityChange(value)}
-                >
-                    <Option value="">All cities</Option>
-                    {destinations?.map((city) => (
-                        <Option key={city.id} value={city.id}>
-                            {city.label}
-                        </Option>
-                    ))}
-                </Select>
+            <Row gutter={[16, 16]} style={{ marginBottom: "24px" }}>
+                <Col lg={6} md={8} xs={24}>
+                    <Select
+                        placeholder="Choose the city"
+                        value={selectedCity}
+                        onChange={(value) => handleCityChange(value)}
+                        style={{ width: "100%" }}
+                    >
+                        <Option value="">All cities</Option>
+                        {destinations?.map((city) => (
+                            <Option key={city.id} value={city.id}>
+                                {city.label}
+                            </Option>
+                        ))}
+                    </Select>
+                </Col>
 
-                <Input
-                    placeholder="Search by name, transaction id, email..."
-                    value={searchQuery}
-                    onChange={(e) => handleSearchChange(e)}
-                />
-            </div>
+                <Col lg={18} md={16} xs={24}>
+                    <Input
+                        placeholder="Search by name, address, city..."
+                        value={searchQuery}
+                        onChange={(e) => handleSearchChange(e)}
+                    />
+                </Col>
+            </Row>
 
             {hotelsLoading && <Spin className={styles.loading} />}
 
@@ -101,18 +100,19 @@ const Hotels = () => {
             )}
 
             <Row gutter={[36, 36]}>
-                {hotels?.map((hotel) => (
-                    <Col key={hotel.id} span={8}>
-                        <HotelCard
-                            id={hotel.id}
-                            name={hotel.name}
-                            address={hotel.address}
-                            city={hotel.city}
-                            imageUrl={hotel.imageUrl}
-                            hotelRating={hotel.hotel_rating}
-                        />
-                    </Col>
-                ))}
+                {!hotelsLoading &&
+                    hotels?.map((hotel) => (
+                        <Col key={hotel.id} lg={8} md={12} xs={24}>
+                            <HotelCard
+                                id={hotel.id}
+                                name={hotel.name}
+                                address={hotel.address}
+                                city={hotel.city}
+                                imageUrl={hotel.imageUrl}
+                                hotelRating={hotel.hotel_rating}
+                            />
+                        </Col>
+                    ))}
             </Row>
             {!hotelsLoading && hotels?.length > 0 ? (
                 <Pagination
