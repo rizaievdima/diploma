@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Carousel, Typography, Button, Row, Col } from "antd";
+import { Carousel, Typography, Button, Row, Col, Spin } from "antd";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,7 +17,7 @@ const Home = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { featuredHotels, isLoading, error } = useSelector((state) => state.hotels);
+    const { featuredHotels, isLoading } = useSelector((state) => state.hotels);
 
     useEffect(() => {
         dispatch(setCurrentPage("home"));
@@ -99,20 +99,24 @@ const Home = () => {
             </div>
             <div className={styles.container}>
                 <Title level={2}>Featured Hotels</Title>
-                <Row gutter={[16, 16]}>
-                    {featuredHotels?.map((hotel) => (
-                        <Col key={hotel.id} lg={8} md={12} xs={24}>
-                            <HotelCard
-                                id={hotel.id}
-                                name={hotel.name}
-                                address={hotel.address}
-                                city={hotel.city}
-                                imageUrl={hotel.imageUrl}
-                                hotelRating={hotel.hotel_rating}
-                            />
-                        </Col>
-                    ))}
-                </Row>
+                {isLoading ? (
+                    <Spin className={styles.loading} />
+                ) : (
+                    <Row gutter={[16, 16]}>
+                        {featuredHotels?.map((hotel) => (
+                            <Col key={hotel.id} lg={8} md={12} xs={24}>
+                                <HotelCard
+                                    id={hotel.id}
+                                    name={hotel.name}
+                                    address={hotel.address}
+                                    city={hotel.city}
+                                    imageUrl={hotel.imageUrl}
+                                    hotelRating={hotel.hotel_rating}
+                                />
+                            </Col>
+                        ))}
+                    </Row>
+                )}
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router";
+import { NavLink } from "react-router";
 import { useSelector } from "react-redux";
 import { Layout, Menu, Typography } from "antd";
 import { HomeOutlined, UserOutlined } from "@ant-design/icons";
@@ -10,26 +10,26 @@ import styles from "./Header.module.css";
 const { Header: AntHeader } = Layout;
 const { Title } = Typography;
 
+const items = [
+    {
+        key: "home",
+        icon: <HomeOutlined />,
+        label: <NavLink to="/">Home</NavLink>,
+    },
+    {
+        key: "hotels",
+        icon: <FontAwesomeIcon icon={faHotel} />,
+        label: <NavLink to="/hotels">Hotels</NavLink>,
+    },
+    {
+        key: "about",
+        icon: <UserOutlined />,
+        label: <NavLink to="/about-us">About Us</NavLink>,
+    },
+];
+
 const Header = () => {
     const { currentPage } = useSelector((state) => state.global);
-    console.log(currentPage);
-    const items = [
-        {
-            key: "home",
-            icon: <HomeOutlined />,
-            label: <NavLink to="/">Home</NavLink>,
-        },
-        {
-            key: "hotels",
-            icon: <FontAwesomeIcon icon={faHotel} />,
-            label: <NavLink to="/hotels">Hotels</NavLink>,
-        },
-        {
-            key: "about",
-            icon: <UserOutlined />,
-            label: <NavLink to="/about-us">About Us</NavLink>,
-        },
-    ];
 
     return (
         <AntHeader className={styles.header}>

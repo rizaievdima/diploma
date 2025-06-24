@@ -1,7 +1,7 @@
 import { store } from "../store";
 import { getDestinations } from "../store/thunks/destinationsThunk";
 
-const API_URL = "http://localhost:4000";
+const API_URL = import.meta.env.VITE_BASE_URL;
 
 export async function hotelsLoader() {
     await store.dispatch(getDestinations());

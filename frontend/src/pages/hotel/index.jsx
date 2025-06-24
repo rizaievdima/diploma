@@ -13,7 +13,6 @@ const { Title } = Typography;
 const Hotel = () => {
     const dispatch = useDispatch();
     const { name, imageUrl, address, city, hotel_rating } = useLoaderData();
-    console.log(hotel_rating);
 
     const navigate = useNavigate();
 

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Select, Input, Row, Col, Pagination, Spin, Alert } from "antd";
+import { Select, Input, Row, Col, Pagination, Spin, Alert, Button } from "antd";
 
 import { searchHotels } from "../../store/thunks/hotelsThunk.js";
 import { setSelectedCity, setSearchQuery } from "../../store/slices/filtersSlice.js";
 import { setCurrentPage } from "../../store/slices/globalSlice.js";
-import useDebounce from "../../hooks/useDebounce.js";
 
 import HotelCard from "./components/HotelCard.jsx";
 
@@ -18,32 +17,22 @@ const Hotels = () => {
     const [pageSize, setPageSize] = useState(9);
 
     const { destinations } = useSelector((state) => state.destinations);
-    const {
-        hotels,
-        total,
-        error: hotelsError,
-        isLoading: hotelsLoading,
-    } = useSelector((state) => state.hotels);
+    const { hotels, total, isLoading: hotelsLoading } = useSelector((state) => state.hotels);
     const { selectedCity, searchQuery } = useSelector((state) => state.filters);
 
     const dispatch = useDispatch();
-    const debouncedQuery = useDebounce(searchQuery);
 
-    useEffect(() => {
-        dispatch(setCurrentPage("hotels"));
-    }, []);
-    console.log("test");
-    useEffect(() => {
+    const handleHotelsSearch = () => {
         dispatch(
             searchHotels({
                 destinationId: selectedCity,
-                query: debouncedQuery,
+                query: searchQuery,
                 page: 1,
                 pageSize,
             })
         );
         setPage(1);
-    }, [selectedCity, debouncedQuery]);
+    };
 
     const handleCityChange = (value) => {
         dispatch(setSelectedCity(value));
@@ -57,7 +46,7 @@ const Hotels = () => {
         dispatch(
             searchHotels({
                 destinationId: selectedCity,
-                query: debouncedQuery,
+                query: searchQuery,
                 page: page,
                 pageSize,
             })
@@ -65,10 +54,18 @@ const Hotels = () => {
         setPage(page);
     };
 
+    useEffect(() => {
+        dispatch(setCurrentPage("hotels"));
+    }, []);
+
+    useEffect(() => {
+        handleHotelsSearch();
+    }, [selectedCity]);
+
     return (
         <div className={styles.wrapper}>
             <Row gutter={[16, 16]} style={{ marginBottom: "24px" }}>
-                <Col lg={6} md={8} xs={24}>
+                <Col lg={8} md={8} xs={24}>
                     <Select
                         placeholder="Choose the city"
                         value={selectedCity}
@@ -84,12 +81,22 @@ const Hotels = () => {
                     </Select>
                 </Col>
 
-                <Col lg={18} md={16} xs={24}>
+                <Col lg={12} md={10} xs={24}>
                     <Input
                         placeholder="Search by name, address, city..."
                         value={searchQuery}
                         onChange={(e) => handleSearchChange(e)}
                     />
+                </Col>
+                <Col lg={4} md={6} xs={24}>
+                    <Button
+                        style={{ width: "100%" }}
+                        type="primary"
+                        htmlType="submit"
+                        onClick={() => handleHotelsSearch()}
+                    >
+                        Search
+                    </Button>
                 </Col>
             </Row>
 

@@ -1,9 +1,8 @@
 import { Outlet } from "react-router";
-import { Layout as AntLayout, theme } from "antd";
+import { Layout as AntLayout } from "antd";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import SideBar from "./components/SideBar";
 
 import styles from "./Layout.module.css";
 
