@@ -1,5 +1,5 @@
 export const getImageUrl = (name = "") => {
-    const images = import.meta.glob("../assets/images/*.{png,jpg,jpeg,svg}");
+    const images = import.meta.glob("../assets/images/*.{png,jpg,jpeg,svg}", { eager: true });
     const imageModule = Object.keys(images).find((path) => path.includes(name));
     if (imageModule) {
         return new URL(imageModule, import.meta.url).href;
